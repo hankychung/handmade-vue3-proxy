@@ -5,7 +5,10 @@ export default {
   output: {
     file: 'dist/index.js',
     format: 'iife',
-    name: 'vue'
+    name: 'Vue'
+  },
+  watch: {
+    include: ['src/**']
   },
   plugins: [typescript()]
 }

@@ -1,0 +1,1 @@
+const depsWeakMap = new WeakMap()

@@ -2,14 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
   <body>
-    <script src="./dist/index.js"></script>
+    <div id="test"></div>
+    <div id="test2"></div>
 
+    <script src="./dist/index.js"></script>
     <script>
-      console.log(vue)
+      const { reactive, effect } = Vue
+
+      window.obj = reactive({
+        name: 'jack',
+        age: 12,
+        get fullName() {
+          return this.name + this.age
+        }
+      })
+
+      effect(() => {
+        document.querySelector('#test').innerHTML = obj.name + obj.age
+      })
+
+      // TEST: 是否跟踪上一个activeEffect - track
+      console.log(obj.c)
+
+      effect(() => {
+        document.querySelector('#test2').innerHTML = obj.name
+      })
     </script>
   </body>
 </html>
