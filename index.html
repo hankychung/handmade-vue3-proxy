@@ -9,6 +9,7 @@
   <body>
     <div id="test"></div>
     <div id="test2"></div>
+    <div id="test3"></div>
 
     <script src="./dist/index.js"></script>
     <script>
@@ -16,9 +17,10 @@
 
       window.obj = reactive({
         name: 'jack',
+        firstName: 'chung',
         age: 12,
         get fullName() {
-          return this.name + this.age
+          return this.name + '-' + this.firstName
         }
       })
 
@@ -26,11 +28,12 @@
         document.querySelector('#test').innerHTML = obj.name + obj.age
       })
 
-      // TEST: 是否跟踪上一个activeEffect - track
-      console.log(obj.c)
-
       effect(() => {
         document.querySelector('#test2').innerHTML = obj.name
+      })
+
+      effect(() => {
+        document.querySelector('#test3').innerHTML = obj.fullName
       })
     </script>
   </body>
