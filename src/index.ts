@@ -1,7 +1,4 @@
 import { reactive } from './reactive'
+import { effect } from './effect'
 
-console.log('aa')
-
-export const test = '11'
-
-export { reactive }
+export { reactive, effect }
