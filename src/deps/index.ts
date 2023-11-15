@@ -1,3 +1,11 @@
-const depsWeakMap: WeakMap<any, Map<any, (() => void)[]>> = new WeakMap()
+import { ReactiveEffect } from '../effect'
 
-export { depsWeakMap }
+type Deps = Set<ReactiveEffect>
+
+const depsWeakMap: WeakMap<any, Map<any, Deps>> = new WeakMap()
+
+const createDeps = (effects?: ReactiveEffect[]) => {
+  return new Set(effects)
+}
+
+export { depsWeakMap, createDeps }

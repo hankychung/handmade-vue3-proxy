@@ -1,15 +1,15 @@
-import { depsWeakMap } from '../deps'
+import { createDeps, depsWeakMap } from '../deps'
 
 class ReactiveEffect {
   constructor(private fn: () => any) {
-    ReactiveEffect.activeEffect = fn
+    ReactiveEffect.activeEffect = this
   }
 
   run() {
     this.fn()
   }
 
-  static activeEffect: null | (() => any) = null
+  static activeEffect: null | ReactiveEffect = null
 
   static track(target: any, key: string | symbol) {
     if (!ReactiveEffect.activeEffect) return
@@ -21,12 +21,12 @@ class ReactiveEffect {
     const depsDict = depsWeakMap.get(target)!
 
     if (!depsDict.has(key)) {
-      depsDict.set(key, [])
+      depsDict.set(key, createDeps())
     }
 
     console.log('trigger', key)
 
-    depsDict.get(key)?.push(ReactiveEffect.activeEffect)
+    depsDict.get(key)?.add(ReactiveEffect.activeEffect)
   }
 
   static trigger(target: any, key: string | symbol) {
@@ -36,9 +36,9 @@ class ReactiveEffect {
 
     const deps = depsDict.get(key)
 
-    if (!deps || !deps.length) return
+    if (!deps) return
 
-    deps.forEach((fn) => fn())
+    deps.forEach((effect) => effect.run())
   }
 }
 
